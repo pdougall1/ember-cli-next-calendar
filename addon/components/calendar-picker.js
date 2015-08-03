@@ -5,16 +5,16 @@ export default Ember.Component.extend({
 
   init: function () {
     var calendar = Calendar.create();
-    calendar.setSelectedDay(this.get('selectedDay'));
+    calendar.setSelectedDate(this.get('selectedDate'));
     this.set('calendar', calendar);
     this._super();
   },
 
-  selectedDayObj: Ember.computed(function () {
-    return this.get('calendar.selectedDay');
+  selectedDateObj: Ember.computed(function () {
+    return this.get('calendar.selectedDate');
   }),
 
-  selectedDayHumanReadable: Ember.computed('selectedDayObj', function () {
-    return moment(this.get('selectedDayObj')).format('MMMM D, YYYY');
+  selectedDateHumanReadable: Ember.computed('selectedDateObj', function () {
+    return moment(this.get('selectedDateObj')).format('MMMM D, YYYY');
   })
 });

@@ -22,4 +22,13 @@ test('visiting /calendar', function(assert) {
   andThen(function() {
     assert.equal(find('#next-calendar h1.human-date').text(), 'January 1, 2015');
   });
+
+  // andThen(function() {
+  //   var expectedDaysText = [1, 2, 3, 4, 5, 26, 27, 28, 29, 30, 31];
+  //   var dayElemets = find('#next-calendar div.day');
+  //   assert.equal(dayElemets.length > 0, true);
+  //   dayElemets.each(function (dayElement) {
+  //     assert.equal(expectedDaysText.indexOf(parseInt(dayElement.text())), -1);
+  //   });
+  // });
 });
