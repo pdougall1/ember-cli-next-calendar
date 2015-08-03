@@ -1,0 +1,53 @@
+<div id='next-calendar' class='next-calendar-picker'>
+  <ul class="calendar-rows">
+    <li class="calendar-row title">
+      <ul>
+        {{!-- <li class='calendar-arrow-button' {{!action 'previousMonth'}}><</li> --}}
+        <li><h1 class='human-date'>{{currentDayHumanReadable}}</h1></li>
+        {{!-- <li class='calendar-arrow-button' {{!action 'nextMonth'}}>></li> --}}
+      </ul>
+    </li>
+    <li class="calendar-row day-header">
+      <ul>
+        <li class="day">
+          <span>Sun</span>
+        </li>
+        <li class="day">
+          <span>Mon</span>
+        </li>
+        <li class="day">
+          <span>Tue</span>
+        </li>
+        <li class="day">
+          <span>Wed</span>
+        </li>
+        <li class="day">
+          <span>Thu</span>
+        </li>
+        <li class="day">
+          <span>Fri</span>
+        </li>
+        <li class="day">
+          <span>Sat</span>
+        </li>
+      </ul>
+    </li>
+{{!--     {{!#each week in month}}
+      <li class="calendar-row week">
+        <ul>
+        {{!#each day in week}}
+          {{!#if day.inCurrentMonth}}
+            <li {{!action 'toggleChosenDay' day}} {{!bind-attr class=":day day.today day.inCurrentMonth day.chosen"}}>
+              {{!day.ofMonth}}
+            </li>
+          {{!else}}
+            <li {{!bind-attr class=":day day.chosen"}}>
+              {{!day.ofMonth}}
+            </li>
+          {{!/if}}
+        {{!/each}}
+        </ul>
+      </li>
+    {{!/each}} --}}
+  </ul>
+</div>
