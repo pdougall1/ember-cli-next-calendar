@@ -1,12 +1,20 @@
 import Ember from 'ember';
+import Calendar from '../lib/calendar';
 
 export default Ember.Component.extend({
 
-  currentDay: Ember.computed(function () {
-    return moment(this.get('selectedDate'));
+  init: function () {
+    var calendar = Calendar.create();
+    calendar.setSelectedDay(this.get('selectedDay'));
+    this.set('calendar', calendar);
+    this._super();
+  },
+
+  selectedDayObj: Ember.computed(function () {
+    return this.get('calendar.selectedDay');
   }),
 
-  currentDayHumanReadable: Ember.computed('currentDay', function () {
-    return moment(this.get('currentDay')).format('MMMM D, YYYY');
+  selectedDayHumanReadable: Ember.computed('selectedDayObj', function () {
+    return moment(this.get('selectedDayObj')).format('MMMM D, YYYY');
   })
 });
