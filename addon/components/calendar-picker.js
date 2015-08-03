@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import Calendar from '../lib/calendar';
+import Calendar from '../models/calendar';
 
 export default Ember.Component.extend({
 
