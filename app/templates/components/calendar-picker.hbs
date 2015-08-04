@@ -3,8 +3,8 @@
     <li class="calendar-row title">
       <ul>
         {{!-- <li class='calendar-arrow-button' {{!action 'previousMonth'}}><</li> --}}
-        <li><h1 class='human-date'>{{selectedDateHumanReadable}}</h1></li>
-        {{!-- <li class='calendar-arrow-button' {{!action 'nextMonth'}}>></li> --}}
+        <li><h1 class='human-date'>{{currentMonthHumanReadable}}</h1></li>
+        <li class='calendar-arrow-button next' {{action 'nextMonth'}}>></li>
       </ul>
     </li>
     <li class="calendar-row day-header">
@@ -32,22 +32,15 @@
         </li>
       </ul>
     </li>
-{{!--     {{!#each week in month}}
+
+    {{#each week in currentMonth}}
       <li class="calendar-row week">
         <ul>
-        {{!#each day in week}}
-          {{!#if day.inCurrentMonth}}
-            <li {{!action 'toggleChosenDay' day}} {{!bind-attr class=":day day.today day.inCurrentMonth day.chosen"}}>
-              {{!day.ofMonth}}
-            </li>
-          {{!else}}
-            <li {{!bind-attr class=":day day.chosen"}}>
-              {{!day.ofMonth}}
-            </li>
-          {{!/if}}
-        {{!/each}}
+        {{#each day in week}}
+          <li class='day'>{{day.ofMonth}}</li>
+        {{/each}}
         </ul>
       </li>
-    {{!/each}} --}}
+    {{/each}}
   </ul>
 </div>

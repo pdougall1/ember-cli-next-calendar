@@ -10,11 +10,28 @@ export default Ember.Component.extend({
     this._super();
   },
 
-  selectedDateObj: Ember.computed(function () {
+  selectedDateObj: Ember.computed('selectedDate', function () {
     return this.get('calendar.selectedDate');
   }),
 
-  selectedDateHumanReadable: Ember.computed('selectedDateObj', function () {
-    return moment(this.get('selectedDateObj')).format('MMMM D, YYYY');
-  })
+  currentMonthHumanReadable: Ember.computed('currentMonthValue', function () {
+    return moment(this.get('currentMonthValue')).format('MMMM, YYYY');
+  }),
+
+  // the month is changed by changing the currentMonthValue
+  // it makes sense for this to be changed one month at a time
+  currentMonthValue: Ember.computed(function () {
+    return moment(this.get('selectedDateObj')).startOf('month');
+  }),
+
+  currentMonth: Ember.computed('currentMonthValue', function () {
+    return this.get('calendar').findMonth(this.get('currentMonthValue')).prepareForTemplate();
+  }),
+
+  actions: {
+    nextMonth: function () {
+      var nextMonth = moment(this.get('currentMonthValue')).add(1, 'month');
+      this.set('currentMonthValue', nextMonth);
+    }
+  }
 });
