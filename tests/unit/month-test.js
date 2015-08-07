@@ -1,4 +1,5 @@
 import { module, test } from 'qunit';
+import Ember from 'ember';
 import Month from 'ember-next-calendar/models/month';
 import Day from 'ember-next-calendar/models/day';
 
@@ -10,17 +11,12 @@ module('Unit | month', {
   }
 });
 
-test('can add a day', function (assert) {
-  var dateString = '2015-01-01';
-  var day = Day.create({ date: dateString });
-  month.addDay(day);
-  assert.equal(month.get('days.' + dateString), day);
-});
-
 test('can find a day', function (assert) {
   var dateString = '2015-01-01';
   var day = Day.create({ date: dateString });
 
-  month.addDay(day);
+  var days = Ember.Object.create();
+  days.set(dateString, day);
+  month.set('days', days);
   assert.equal(month.findDay(dateString), day);
 });

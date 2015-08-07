@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import Month from './month';
-import Day from './day';
+import Key from './key';
+import DaysOfMonth from './days-of-month';
 
 // Calendar is the canon.
 // Weeks and Months just point to the day that hangs off of Calendar.
@@ -60,34 +61,25 @@ export default Ember.Object.extend({
   },
 
   buildMonth: function (firstOfMonth) {
-    var months = this.get('months');
-    var month = Month.create({ date: firstOfMonth, calendar: this });
-    var monthKey = this.getMonthKey(firstOfMonth);
+    var dateKey = Key.create({ date: firstOfMonth });
+    var daysOfMonth = DaysOfMonth.create({ key: dateKey });
+    var days = daysOfMonth.getDays();
+    var month = Month.create({ date: firstOfMonth, calendar: this, days: days });
 
     // TODO: build weeks also
-
-    var dayOfMonth = moment(firstOfMonth);
-    var firstOfNextMonth = moment(firstOfMonth).add(1, 'month');
-    var iterationNum = 0;
-    while (dayOfMonth.unix() < firstOfNextMonth.unix()) {
-      if (iterationNum > 32) {
-        throw new Error('Something went wrong in buildMonth while loop.');
-      }
-      var newDay = Day.create({ date: dayOfMonth });
-      var dayKey = this.getDayKey(dayOfMonth);
-      var days = this.get('days') || Ember.Object.create();
-      days[dayKey] = newDay;
-      this.set('days', days);
-      month.addDay(newDay);
-      // TODO: set day on week
-      dayOfMonth = moment(dayOfMonth).add(1, 'day');
-      iterationNum++;
-    }
-
-    months.set(monthKey, month);
+    this.set('months.' + dateKey.get('forMonth'), month);
+    this.includeInDays(days);
     // TODO: set week on weeks
   },
 
+  includeInDays: function (days) {
+    var allDays = this.get('days') || Ember.Object.create();
+
+    Object.keys(days).forEach( function (dayKey) {
+      allDays.set(dayKey, days[dayKey]);
+    });
+    this.set('days', allDays);
+  },
 
   // TODO: move this out to a key object
   dayFormatString: 'YYYY-MM-DD',

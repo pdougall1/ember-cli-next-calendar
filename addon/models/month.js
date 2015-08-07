@@ -6,13 +6,6 @@ export default Ember.Object.extend({
     this.set('date', moment(this.get('date')));
   },
 
-  addDay: function (day) {
-    var dayKey = this.getDayKey(day.get('date'));
-    var days = this.get('days') || Ember.Object.create();
-    days[dayKey] = day;
-    this.set('days', days);
-  },
-
   findDay: function (date) {
     var dayKey = this.getDayKey(date);
     return this.get('days.' + dayKey);
