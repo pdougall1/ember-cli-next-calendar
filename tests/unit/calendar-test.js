@@ -33,8 +33,8 @@ test('setting selected date will create surrounding days', function (assert) {
 
 test('setting selected date will create surrounding months', function (assert) {
   calendar.setSelectedDate('2015-01-01');
-  var dayKeys = Object.keys(calendar.months);
-  assert.equal(dayKeys.length, 1);
+  var monthKeys = Object.keys(calendar.months);
+  assert.equal(monthKeys.length, 1);
 });
 
 test('month is pointing to the same day instance as days', function (assert) {
@@ -53,4 +53,10 @@ test('each month will have only the days in that month', function (assert) {
 test('can find a month', function (assert) {
   calendar.setSelectedDate('2015-01-01');
   assert.equal(calendar.findMonth('2015-01-01').get('date').format('YYYY-MM-DD'), '2015-01-01');
+});
+
+test('month has all full weeks when prepared for the template', function (assert) {
+  calendar.setSelectedDate('2015-01-01');
+  var month = calendar.findMonth('2015-01-01');
+  assert.equal(month.prepareForTemplate(), 'diygs');
 });

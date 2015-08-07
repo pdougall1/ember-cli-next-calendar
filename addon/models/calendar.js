@@ -27,11 +27,6 @@ export default Ember.Object.extend({
 
 
   // PRIVATE
-  // findOrCreate: function (date) {
-  //   this.ensureDaysInMonthExist(date);
-  //   var dayKey = this.getDayKey(date);
-  //   return this.get('days').get(dayKey);
-  // },
 
   findOrCreateMonth: function (date) {
     this.ensureDaysInMonthExist(date);
@@ -48,18 +43,36 @@ export default Ember.Object.extend({
     if (!months.get(monthKey)) {
       this.buildMonth(firstOfMonth);
     }
+
+    // needed to fill in ghost days
+    var firstOfPreviousMonth = moment(firstOfMonth).subtract(1, 'month');
+    var previousMonthKey = this.getMonthKey(moment(firstOfPreviousMonth));
+    if (!months.get(previousMonthKey)) {
+      this.buildMonth(firstOfPreviousMonth);
+    }
+
+    // needed to fill in ghost days
+    var firstOfNextMonth = moment(firstOfMonth).add(1, 'month');
+    var nextMonthKey = this.getMonthKey(moment(firstOfNextMonth));
+    if (!months.get(nextMonthKey)) {
+      this.buildMonth(firstOfNextMonth);
+    }
   },
 
   buildMonth: function (firstOfMonth) {
     var months = this.get('months');
-    var month = Month.create({ date: firstOfMonth });
+    var month = Month.create({ date: firstOfMonth, calendar: this });
     var monthKey = this.getMonthKey(firstOfMonth);
 
     // TODO: build weeks also
 
     var dayOfMonth = moment(firstOfMonth);
     var firstOfNextMonth = moment(firstOfMonth).add(1, 'month');
+    var iterationNum = 0;
     while (dayOfMonth.unix() < firstOfNextMonth.unix()) {
+      if (iterationNum > 32) {
+        throw new Error('Something went wrong in buildMonth while loop.');
+      }
       var newDay = Day.create({ date: dayOfMonth });
       var dayKey = this.getDayKey(dayOfMonth);
       var days = this.get('days') || Ember.Object.create();
@@ -68,6 +81,7 @@ export default Ember.Object.extend({
       month.addDay(newDay);
       // TODO: set day on week
       dayOfMonth = moment(dayOfMonth).add(1, 'day');
+      iterationNum++;
     }
 
     months.set(monthKey, month);
