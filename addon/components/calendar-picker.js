@@ -25,7 +25,7 @@ export default Ember.Component.extend({
   }),
 
   currentMonth: Ember.computed('currentMonthValue', function () {
-    return this.get('calendar').findMonth(this.get('currentMonthValue')).prepareForTemplate();
+    return this.get('calendar').showMonthAsWeeks(this.get('currentMonthValue'));
   }),
 
   actions: {

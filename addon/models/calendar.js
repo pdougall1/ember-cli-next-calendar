@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import Month from './month';
+import Weeks from './weeks';
 import Key from './key';
 import DaysOfMonth from './days-of-month';
 
@@ -24,6 +25,11 @@ export default Ember.Object.extend({
   // TODO: date here could be a key object?
   findMonth: function (date) {
     return this.findOrCreateMonth(date);
+  },
+
+  showMonthAsWeeks: function (date) {
+    var month = this.findOrCreateMonth(date);
+    return Weeks.create({ allDays: this.get('days'), days: month.get('days') });
   },
 
 
